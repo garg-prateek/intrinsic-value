@@ -19,47 +19,47 @@ public class IntrinsicValue {
 	static double terminalGrowthRate;
 	static double discountRate;
 
-	// public static void averageOperatingCashFlow() {
-//		System.out.println("Enter the last three years Operating Cash: ");
-//		Scanner s = new Scanner(System.in);
-//		System.out.println("Enter 2 years before Operating Cash");
-//		opCashminus2 = s.nextDouble();
-//		System.out.println("Enter last year  Operating Cash");
-//		opCashminus1 = s.nextDouble();
-//		System.out.println("Enter current year  Operating Cash");
-//		opCashCurrent = s.nextDouble();
-//		a = (opCashminus2 + opCashminus1 + opCashCurrent) / 3;
-//		s.close();
-//
-//	}
-//
-//	public static void averageCapitalExpenditure() {
-//		System.out.println("Enter the last three years Capital Expenditure: ");
-//		Scanner s = new Scanner(System.in);
-//
-//		System.out.println("Enter 2 years before Capital Expenditure: ");
-//		capEx2 = s.nextDouble();
-//		System.out.println("Enter last year Capital Expenditure: ");
-//		capEx1 = s.nextDouble();
-//		System.out.println("Enter current year Capital Expenditure: ");
-//		capExCurrent = s.nextDouble();
-//		b = (capEx2 + capEx1 + capExCurrent) / 3;
-//		s.close();
-//
-//	}
-//
-//	public static void rate() {
-//		Scanner sc = new Scanner(System.in);
-//		System.out.println("Enter the growth rate for first five years");
-//		growthRate1 = sc.nextDouble();
-//		System.out.println("Enter the growth rate for first last years");
-//		growthRate2 = sc.nextDouble();
-//		System.out.println("Enter the terminal growth rate for first five years");
-//		terminalGrowthRate = sc.nextDouble();
-//		System.out.println("Enter the discount  rate for first five years");
-//		discountRate = sc.nextDouble();
-//
-//	}
+	 public static void averageOperatingCashFlow() {
+		System.out.println("Enter the last three years Operating Cash: ");
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter 2 years before Operating Cash");
+		opCashminus2 = s.nextDouble();
+		System.out.println("Enter last year  Operating Cash");
+		opCashminus1 = s.nextDouble();
+		System.out.println("Enter current year  Operating Cash");
+		opCashCurrent = s.nextDouble();
+		a = (opCashminus2 + opCashminus1 + opCashCurrent) / 3;
+		s.close();
+
+	}
+
+	public static void averageCapitalExpenditure() {
+		System.out.println("Enter the last three years Capital Expenditure: ");
+		Scanner s = new Scanner(System.in);
+
+		System.out.println("Enter 2 years before Capital Expenditure: ");
+		capEx2 = s.nextDouble();
+		System.out.println("Enter last year Capital Expenditure: ");
+		capEx1 = s.nextDouble();
+		System.out.println("Enter current year Capital Expenditure: ");
+		capExCurrent = s.nextDouble();
+		b = (capEx2 + capEx1 + capExCurrent) / 3;
+		s.close();
+
+	}
+
+	public static void rate() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the growth rate for first five years");
+		growthRate1 = sc.nextDouble();
+		System.out.println("Enter the growth rate for first last years");
+		growthRate2 = sc.nextDouble();
+		System.out.println("Enter the terminal growth rate for first five years");
+		terminalGrowthRate = sc.nextDouble();
+		System.out.println("Enter the discount  rate for first five years");
+		discountRate = sc.nextDouble();
+
+	}
 
 	public static void FCF() {
 		System.out.println("The future cash flow is as follows: ");

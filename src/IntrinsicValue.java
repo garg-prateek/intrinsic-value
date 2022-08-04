@@ -11,7 +11,7 @@ public class IntrinsicValue {
 	static double capExCurrent;
 	static double growthRate1;
 	static double growthRate2;
-	static double a; // average operating cash for last three years
+	static double a; // average FCF
 	static double b; // average capital expenditure for last three years
 	static double fifthCash;
 	static double tenthCash;
@@ -20,8 +20,15 @@ public class IntrinsicValue {
 	static double discountRate;
 	static double sumNpv; // sum of all npv of fcf till 10 th year
 	static double shareholderCash; // the cash shareholder has
+	static double totalPVOfFCF;
+	static double totalShares;
+	static double intrinsicValueWE; // Approx Intrinsic value
+	static double intrinsicValueLower;
+	static double intrinsicValueUpper;
+	static double netDebt;
 
 	public static void averageOperatingCashFlow() {
+
 		System.out.println("Enter the last three years Operating Cash: ");
 		Scanner s = new Scanner(System.in);
 		System.out.println("Enter 2 years before Operating Cash");
@@ -30,14 +37,9 @@ public class IntrinsicValue {
 		opCashminus1 = s.nextDouble();
 		System.out.println("Enter current year  Operating Cash");
 		opCashCurrent = s.nextDouble();
-		a = (opCashminus2 + opCashminus1 + opCashCurrent) / 3;
-		s.close();
 
-	}
-
-	public static void averageCapitalExpenditure() {
 		System.out.println("Enter the last three years Capital Expenditure: ");
-		Scanner s = new Scanner(System.in);
+		// Scanner s = new Scanner(System.in);
 
 		System.out.println("Enter 2 years before Capital Expenditure: ");
 		capEx2 = s.nextDouble();
@@ -45,27 +47,44 @@ public class IntrinsicValue {
 		capEx1 = s.nextDouble();
 		System.out.println("Enter current year Capital Expenditure: ");
 		capExCurrent = s.nextDouble();
-		b = (capEx2 + capEx1 + capExCurrent) / 3;
-		s.close();
-
-	}
-
-	public static void rate() {
-		Scanner sc = new Scanner(System.in);
+		a = ((opCashminus2 - capEx2) + (opCashminus1 - capEx1) + (opCashCurrent - capExCurrent)) / 3;
+		System.out.println(a);
+		// b = (capEx2 + capEx1 + capExCurrent) / 3;
 		System.out.println("Enter the growth rate for first five years");
-		growthRate1 = sc.nextDouble();
+		growthRate1 = s.nextDouble();
 		System.out.println("Enter the growth rate for first last years");
-		growthRate2 = sc.nextDouble();
+		growthRate2 = s.nextDouble();
 		System.out.println("Enter the terminal growth rate for first five years");
-		terminalGrowthRate = sc.nextDouble();
-		System.out.println("Enter the discount  rate for first five years ");
-		discountRate = sc.nextDouble();
-
+		terminalGrowthRate = s.nextDouble();
+		System.out.println("Enter the discount  rate ");
+		discountRate = s.nextDouble();
+		System.out.println("Enter the current year total debt: ");
+		// Scanner s = new Scanner(System.in);
+		double debt = s.nextDouble();
+		System.out.println("Enter the cash and cash equivalents: ");
+		double cash = s.nextDouble();
+		System.out.println("Enter the cash in bank: ");
+		double bankBalance = s.nextDouble();
+		netDebt = (debt - (cash + bankBalance));
+		System.out.println("Enter the number of Outstanding shares of company in crore: ");
+		totalShares = s.nextDouble();
+		s.close();
 	}
+
+//	public static void averageCapitalExpenditure() {
+//		
+//		s.close();
+//
+//	}
+
+//	public static void rate() {
+//		Scanner sc = new Scanner(System.in);
+//
+//	}
 
 	public static void FCF() {
 		System.out.println("The future cash flow is as follows: ");
-		ArrayList<Double> list = new ArrayList<>();
+		List<Double> list = new ArrayList<>();
 
 		for (int i = 1; i <= 5; i++) {
 			double sum = a * Math.pow((1 + (growthRate1 / 100)), i);
@@ -76,35 +95,56 @@ public class IntrinsicValue {
 		fifthCash = a * Math.pow((1 + (growthRate1 / 100)), 5);
 
 		for (int i = 6; i <= 10; i++) {
-			double sum1 = fifthCash * Math.pow((1 + (growthRate2 / 100)), i);
+			double sum1 = fifthCash * Math.pow((1 + (growthRate2 / 100)), i - 5);
 			System.out.println("The future cash flow for " + i + "th year is " + sum1);
 			list.add((i - 1), sum1);
 		}
 		System.out.println(list);
-		tenthCash = a * Math.pow((1 + (growthRate2 / 100)), 10);
+		tenthCash = fifthCash * Math.pow((1 + (growthRate2 / 100)), 5);
 
 		terminalValue = tenthCash * (1 + (terminalGrowthRate / 100)) / ((discountRate - terminalGrowthRate) / 100);
+		System.out.println("The terminal value is: " + terminalValue);
 
 		// calculation of npv of future cash flow
 		for (int i = 1; i <= 10; i++) {
-			double npv = list.get(i - 1) / Math.pow(1 + discountRate, i);
-			System.out.println("the npv of each till 10th is: " + npv);
+			double npv = list.get(i - 1) / Math.pow(1 + (discountRate / 100), i);
+			System.out.println("the npv of each till " + i + " is: " + npv);
 			sumNpv += npv;
+			System.out.println("NPV of future cash flow: " + sumNpv);
 		}
 		double terminalNpv = terminalValue / Math.pow(1 + (discountRate / 100), 10);
+		System.out.println("The net present value of terminal value is: " + terminalNpv);
 		shareholderCash = terminalNpv + sumNpv;
 		System.out.println(
 				"Standing today and looking into future ,the expected total free cash flow to be generated by company is: "
 						+ shareholderCash);
+
+		totalPVOfFCF = shareholderCash - netDebt;
+		System.out.println("The total present value of Free Cash flow is: " + totalPVOfFCF);
+
+		intrinsicValueWE = (totalPVOfFCF / totalShares);
+
+		System.out.println("The Intrinsic value of share is: " + intrinsicValueWE);
+
+		System.out.println("Assuming 10 % error for upper and lower band, the intrinsic value will be: ");
+		intrinsicValueLower = intrinsicValueWE * 0.9;
+		intrinsicValueUpper = intrinsicValueWE * 1.1;
+
+		System.out.println("The stock is fairly value between " + intrinsicValueLower + " and " + intrinsicValueUpper);
+
+		System.out.println("Taking 30% as margin of safety to be on conservative side " + intrinsicValueLower * 0.7);
+
 	}
 
 	public static void main(String[] args) {
 
-//		averageOperatingCashFlow();
+		averageOperatingCashFlow();
 //		averageCapitalExpenditure();
 //		rate();
-
+		// sharePrice();
+//
 		FCF();
+		// sharePrice();
 
 	}
 

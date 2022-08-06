@@ -1,8 +1,12 @@
+package service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class IntrinsicValue {
+import model.IntrinsicValueOutput;
+
+public class IntrinsicValueService {
 	static double opCashminus2;
 	static double opCashminus1;
 	static double opCashCurrent;
@@ -82,7 +86,8 @@ public class IntrinsicValue {
 //
 //	}
 
-	public static void FCF() {
+	public static IntrinsicValueOutput FCF() {
+		IntrinsicValueOutput ivo = new IntrinsicValueOutput();
 		System.out.println("The future cash flow is as follows: ");
 		List<Double> list = new ArrayList<>();
 
@@ -129,21 +134,25 @@ public class IntrinsicValue {
 		System.out.println("Assuming 10 % error for upper and lower band, the intrinsic value will be: ");
 		intrinsicValueLower = intrinsicValueWE * 0.9;
 		intrinsicValueUpper = intrinsicValueWE * 1.1;
+		ivo.setIntrinsicValueLow(intrinsicValueLower);
+		ivo.setIntrinsicValueHigh(intrinsicValueUpper);
 
 		System.out.println("The stock is fairly value between " + intrinsicValueLower + " and " + intrinsicValueUpper);
 
 		System.out.println("Taking 30% as margin of safety to be on conservative side " + intrinsicValueLower * 0.7);
+		
+		return ivo;
 
 	}
 
-	public static void main(String[] args) {
+	public IntrinsicValueOutput calculateIntrinsicValue() {
 
 		averageOperatingCashFlow();
 //		averageCapitalExpenditure();
 //		rate();
 		// sharePrice();
 //
-		FCF();
+		return FCF();
 		// sharePrice();
 
 	}
